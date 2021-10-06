@@ -16,9 +16,10 @@ class RoundForm extends React.Component {
         this.setState({[name]: event.target.value});
       }
   
-    handleSubmit = (event) => {
-      alert('The form was submitted!');
-      event.preventDefault();
+    //Implement handleSubmit
+    handleSubmit = (e) => {
+        e.preventDefault();
+        alert("Form submitted!")
     }
   
     render() {
@@ -27,7 +28,8 @@ class RoundForm extends React.Component {
               onSubmit={this.handleSubmit} noValidate>
             <div className="mb-3 centered">
                 <label htmlFor="roundDate" className="form-label">Date:
-                    <input id="roundDate" className="form-control centered" type="date" 
+                    <input name="date" id="roundDate" 
+                       className="form-control centered" type="date" 
                        aria-describedby="roundDateDescr" value={this.state.date} 
                        onChange={this.handleChange} required/>
                 </label>
@@ -37,7 +39,8 @@ class RoundForm extends React.Component {
             </div>
             <div className="mb-3 centered">
                 <label htmlFor="roundCourse" className="form-label">Course:
-                    <input id="roundCourse"  className="form-control centered" type="text" 
+                    <input name="course" id="roundCourse"  
+                        className="form-control centered" type="text" 
                         aria-describedby="roundCourseDescr"
                         size="50" maxLength="50"  value={this.state.course} 
                         onChange={this.handleChange} required />
