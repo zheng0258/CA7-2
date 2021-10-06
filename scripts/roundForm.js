@@ -8,7 +8,8 @@ class RoundForm extends React.Component {
       super(props);
       const today = new Date(Date.now()-(new Date()).getTimezoneOffset()*60000);
       this.state = {date:  today.toISOString().substr(0,10),
-                    course: ''}; 
+                    course: '',
+                    type: 'practice'}; 
     }
   
     handleChange = (event) => {
@@ -48,6 +49,15 @@ class RoundForm extends React.Component {
                 <div id="roundCourseDescr" className="form-text">
                 Enter a course name of at most 50 characters
                 </div>
+            </div>
+            <div className="mb-3 centered">
+                <label htmlFor="roundType">Type:
+                <select name="type" id="roundType" className="form-control centered"
+                        value={this.state.type} onChange={this.handleChange}>
+                    <option value="practice" selected>Practice</option>
+                    <option value="tournament">Tournament</option>
+                </select> 
+                </label>
             </div>
             <div className="centered">
                 <button type="submit" className="btn btn-primary">
