@@ -1,3 +1,16 @@
+:root {
+    --main-color: #13294E;
+    --text-color: white;   
+}
+
 .centered {
     text-align: center;
+}
+
+
+.btn-submit {
+    width: 70%;
+    font-size: 36px;
+    background-color: var(--main-color);
+    color: var(--text-color);
 }

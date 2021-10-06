@@ -8,8 +8,11 @@ class RoundForm extends React.Component {
       super(props);
       const today = new Date(Date.now()-(new Date()).getTimezoneOffset()*60000);
       this.state = {date:  today.toISOString().substr(0,10),
-                    course: '',
-                    type: 'practice'}; 
+        course: '',
+        type: "practice",
+        submitIcon: "fa fa-save",
+        submitLabel: "Log Round"
+        }; 
     }
   
     handleChange = (event) => {
@@ -17,14 +20,23 @@ class RoundForm extends React.Component {
         this.setState({[name]: event.target.value});
       }
   
-      handleSubmit = (e) => {
-        e.preventDefault();
+      handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({submitIcon: "fa fa-spin fa-spinner", submitLabel: "Saving..."});
+        setTimeout(this.handleSubmitCallback,1000);
+      }
+
+    handleSubmitCallback = () => {
+        this.setState({submitIcon: "fa fa-save", submitLabel: "Log Round"});
         let userRounds = localStorage.getItem("userData");
         if (userRounds == null) {
             userRounds = [];
         } else {
             userRounds = JSON.parse(userRounds);
         }
+        let round = this.state;
+        delete round.submitIcon;
+        delete round.submitLabel;
         userRounds.push(this.state);
         localStorage.setItem("userData",JSON.stringify(userRounds));
         alert("localStorage: " + localStorage.getItem("userData"));
@@ -67,9 +79,9 @@ class RoundForm extends React.Component {
                 </label>
             </div>
             <div className="centered">
-                <button type="submit" className="btn btn-primary">
-                    <span className="fa fa-save"></span>
-                    &nbsp;Log Round
+                <button type="submit" className="btn-submit btn btn-primary">
+                    <span className={this.state.submitIcon}></span>
+                    &nbsp;{this.state.submitLabel}
                 </button>
           </div>
         </form>
