@@ -17,10 +17,17 @@ class RoundForm extends React.Component {
         this.setState({[name]: event.target.value});
       }
   
-    //Implement handleSubmit
-    handleSubmit = (e) => {
+      handleSubmit = (e) => {
         e.preventDefault();
-        alert("Form submitted!")
+        let userRounds = localStorage.getItem("userData");
+        if (userRounds == null) {
+            userRounds = [];
+        } else {
+            userRounds = JSON.parse(userRounds);
+        }
+        userRounds.push(this.state);
+        localStorage.setItem("userData",JSON.stringify(userRounds));
+        alert("localStorage: " + localStorage.getItem("userData"));
     }
   
     render() {
