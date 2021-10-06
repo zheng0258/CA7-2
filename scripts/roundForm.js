@@ -11,7 +11,7 @@ class RoundForm extends React.Component {
     }
   
     handleChange = (event) => {
-      //update component state here
+        this.setState({date: event.target.value});
     }
   
     handleSubmit = (event) => {
@@ -26,7 +26,8 @@ class RoundForm extends React.Component {
             <div className="mb-3 centered">
                 <label htmlFor="roundDate" className="form-label">Date:
                     <input id="roundDate" className="form-control centered" type="date" 
-                       aria-describedby="roundDateDescr" value={this.state.date} required/>
+                       aria-describedby="roundDateDescr" value={this.state.date} 
+                       onChange={this.handleChange} required/>
                 </label>
                 <div id="roundDateDescr" className="form-text">
                 Enter a valid date
