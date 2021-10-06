@@ -37,7 +37,7 @@ class RoundForm extends React.Component {
         let round = this.state;
         delete round.submitIcon;
         delete round.submitLabel;
-        userRounds.push(this.state);
+        userRounds.push(round);
         localStorage.setItem("userData",JSON.stringify(userRounds));
         alert("localStorage: " + localStorage.getItem("userData"));
     }
