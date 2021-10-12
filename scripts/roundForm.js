@@ -10,6 +10,12 @@ class RoundForm extends React.Component {
       this.state = {date:  today.toISOString().substr(0,10),
         course: '',
         type: "practice",
+        holes: "9",
+        strokes: "80",
+        minutes: "60",
+        seconds: "00",
+        sgs:"140:00",
+        notes: '',
         submitIcon: "fa fa-save",
         submitLabel: "Log Round"
         }; 
@@ -41,7 +47,33 @@ class RoundForm extends React.Component {
         localStorage.setItem("userData",JSON.stringify(userRounds));
         alert("localStorage: " + localStorage.getItem("userData"));
     }
-  
+    
+    computeSGS = (event) => {
+      const name = event.target.name;
+      if (name ==="strokes") {
+        const t1 = parseInt(event.target.value);
+        const t2 = parseInt(this.state.minutes);
+        const t3 = parseInt(this.state.seconds);
+        if (t3<10) {
+          this.setState({sgs: t1+t2 +":00"});
+        } else { this.setState({sgs: t1+t2 +":"+ t3}); }
+      } else if (name ==="minutes") {
+        const t1 = parseInt(this.state.strokes);
+        const t2 = parseInt(event.target.value);
+        const t3 = parseInt(this.state.seconds);
+        if (t3<10) {
+          this.setState({sgs: t1+t2 +":00"});
+        } else { this.setState({sgs: t1+t2 +":"+ t3}); }
+      } else if (name ==="seconds") {
+        const t1 = parseInt(this.state.strokes);
+        const t2 = parseInt(this.state.minutes);
+        const t3 = parseInt(event.target.value);
+        if (t3<10) {
+          this.setState({sgs: t1+t2 +":00"});
+        } else { this.setState({sgs: t1+t2 +":"+ t3}); }
+      }
+
+    }
     render() {
         return (
         <form id="logRoundForm" 
@@ -69,6 +101,7 @@ class RoundForm extends React.Component {
                 Enter a course name of at most 50 characters
                 </div>
             </div>
+
             <div className="mb-3 centered">
                 <label htmlFor="roundType">Type:
                 <select name="type" id="roundType" className="form-control centered"
@@ -78,6 +111,64 @@ class RoundForm extends React.Component {
                 </select> 
                 </label>
             </div>
+
+            <div class="mb-3 centered">
+             <label htmlFor="roundHoles">Holes:
+              <select name="holes" id="roundHoles" class="form-control centered"
+                      value={this.state.holes} onChange={this.handleChange}>
+                  <option value="9" selected>9</option>
+                  <option value="18">18</option>
+              </select> 
+              </label>
+            </div>
+
+            <div class="mb-3 centered">
+              <label htmlFor="roundStrokes">Strokes:
+              <input name="strokes" id="roundStrokes "class="form-control centered" type="number" 
+              min="9" max="200" value={this.state.strokes} aria-describedby="roundStrokesDescr"
+              onChange={e => { this.handleChange(e); this.computeSGS(e)}} required>
+              </input>
+              </label>
+              <div id="roundStrokesDescr" class="form-text">
+              Enter a strokes value between 9 and 200
+              </div>
+            </div>
+
+            <div class="mb-3 centered">
+             <label htmlFor="roundTime">Time:
+             <input name="minutes" id="roundMinutes" type="number" size="3"
+               aria-describedby="roundTimeDescr"
+               min="10" max="400" value={this.state.minutes} 
+               onChange={e => { this.handleChange(e); this.computeSGS(e)}} required>
+              </input> : 
+             <input name="seconds" id="roundSeconds" type="number" size="2"
+               aria-describedby="roundTimeDescr"
+               min="0" max="60" value={this.state.seconds} onChange={e => { this.handleChange(e); this.computeSGS(e)}} required>
+               </input>
+             </label>
+             <div id="roundTimeDescr" class="form-text">
+              Enter a minutes value between 10 and 400, and a seconds value between 0 and 59
+            </div>
+            </div>
+
+              <div class="mb-3 centered">
+             <label for="roundSGS">Speedgolf Score:
+               <input name="sgs" id="roundSGS" value={this.state.sgs} class="form-control centered" type="text" 
+             size="6" disabled></input>
+               </label>
+            </div>
+
+            <div class="mb-3 centered">
+            <label htmlFor="roundNotes">Notes:
+            <textarea name="notes" id="roundNotes" value={this.state.notes} class="form-control" 
+             aria-describedby="roundNotesDescr"
+              rows="6" cols="75" maxlength="500" onChange={this.handleChange} required></textarea>
+             </label>
+            <div id="roundNotesDescr" class="form-text">
+             Enter optional round notes of up to 500 characters
+            </div>
+           </div>
+
             <div className="centered">
                 <button type="submit" className="btn-submit btn btn-primary">
                     <span className={this.state.submitIcon}></span>
